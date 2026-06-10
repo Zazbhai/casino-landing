@@ -12,21 +12,24 @@ const LandingPage = () => {
   });
 
   const VPS_URL = import.meta.env.VITE_VPS_URL || 'http://localhost:4000';
+  const downloadUrl = import.meta.env.MODE === 'development'
+    ? `${VPS_URL}/downloads/royalcasino.apk`
+    : 'https://download.ilovedonkgame.site/downloads/royalcasino.apk';
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!hasDownloaded) {
-        window.location.href = `${VPS_URL}/downloads/latest.apk`;
+        window.location.href = downloadUrl;
         setHasDownloaded(true);
       }
     }, 5000);
     return () => clearTimeout(timer);
-  }, [hasDownloaded]);
+  }, [hasDownloaded, downloadUrl]);
 
   const handleManualDownload = async (e) => {
     e.preventDefault();
     setHasDownloaded(true);
-    window.location.href = `${VPS_URL}/downloads/latest.apk`;
+    window.location.href = downloadUrl;
   };
 
   useEffect(() => {
@@ -81,7 +84,7 @@ const LandingPage = () => {
               <span className="flashy-text">{config.appName}</span>
             </h1>
             <p className="hero-desc">
-              Experience the ultimate thrill with provably fair games, instant withdrawals, and a premium curated selection of the best casino games right on your mobile device.
+              Download the official <strong>Royal Casino APK</strong>, India's top real money online casino app. Play high-paying slots, online Teen Patti, Matka, and Mines game. Get instant withdrawals and a 5% deposit bonus on every recharge.
             </p>
             
             <div className="download-btn-wrapper">
