@@ -75,12 +75,9 @@ const Admin = () => {
     
     setMessage('Uploading APK...');
     try {
-      const formData = new FormData();
-      formData.append('apk', apkFile);
-
-      const res = await fetch(`${API_BASE}/api/upload-apk`, {
+      const res = await fetch(`/api/upload`, {
         method: 'POST',
-        body: formData
+        body: apkFile
       });
 
       if (res.ok) {
