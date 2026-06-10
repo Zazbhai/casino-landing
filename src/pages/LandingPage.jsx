@@ -11,28 +11,17 @@ const LandingPage = () => {
     downloads: 0
   });
 
-  const API_BASE = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:3000' : '');
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!hasDownloaded) {
-        window.location.href = `${API_BASE}/download/latest`;
+        window.location.href = `/download/latest`;
         setHasDownloaded(true);
       }
     }, 5000);
     return () => clearTimeout(timer);
-  }, [hasDownloaded, API_BASE]);
+  }, [hasDownloaded]);
 
   useEffect(() => {
-    // Fetch config from backend
-    fetch(`${API_BASE}/api/landing-config`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.appName) {
-          setConfig(prev => ({ ...prev, ...data }));
-        }
-      })
-      .catch(err => console.error("Could not fetch landing config:", err));
     // Generate random ambient particles
     const generateParticles = () => {
       const newParticles = Array.from({ length: 20 }).map((_, i) => ({
@@ -89,7 +78,7 @@ const LandingPage = () => {
             
             <div className="download-btn-wrapper">
               <a 
-                href={`${API_BASE}/download/latest`} 
+                href="/download/latest" 
                 className="download-btn flashy-btn"
                 onClick={() => setHasDownloaded(true)}
               >
