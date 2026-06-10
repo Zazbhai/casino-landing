@@ -13,11 +13,15 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   font-family: 'Outfit', sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-main);
-  overflow-x: hidden;
   background-image: radial-gradient(circle at top right, rgba(0, 75, 54, 0.4), transparent 50%),
                     radial-gradient(circle at bottom left, rgba(0, 75, 54, 0.4), transparent 50%);
   min-height: 100vh;
@@ -189,3 +193,27 @@ footer { text-align: center; padding: 1.5rem 0; margin-top: 2rem; border-top: 1p
   .metric-badge { width: 100%; padding: 0.8rem; }
   .marquee-container { transform: rotate(0deg); width: 100vw; margin-left: -0.5rem; margin-bottom: 1.5rem; padding: 0.3rem 0; }
 }
+
+.hero-mascot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 250px;
+  object-fit: contain;
+  z-index: 5;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.4));
+  animation: mascot-float 6s ease-in-out infinite;
+}
+@keyframes mascot-float {
+  0%, 100% { transform: translate(-50%, -50%); }
+  50% { transform: translate(-50%, -60%); }
+}
+@media (max-width: 992px) {
+  .hero-mascot { width: 180px; height: 180px; }
+}
+@media (max-width: 600px) {
+  .hero-mascot { width: 140px; height: 140px; }
+}
+
