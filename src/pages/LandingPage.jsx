@@ -21,7 +21,15 @@ const LandingPage = () => {
   const handleManualDownload = async (e) => {
     e.preventDefault();
     setShowGuide(true);
-    window.location.href = downloadUrl;
+    
+    // Create a hidden link to trigger download without navigating away
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.target = '_blank'; // Opens download in new tab/background
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
