@@ -4,6 +4,7 @@ import '../index.css';
 
 const LandingPage = () => {
   const [particles, setParticles] = useState([]);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
   const [config, setConfig] = useState({
     appName: 'Royal Casino',
     appLogo: '/app-icon.jpg',
@@ -11,6 +12,16 @@ const LandingPage = () => {
   });
 
   const API_BASE = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:3000' : '');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!hasDownloaded) {
+        window.location.href = `${API_BASE}/download/latest`;
+        setHasDownloaded(true);
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [hasDownloaded, API_BASE]);
 
   useEffect(() => {
     // Fetch config from backend
@@ -77,7 +88,11 @@ const LandingPage = () => {
             </p>
             
             <div className="download-btn-wrapper">
-              <a href={`${API_BASE}/download/latest`} className="download-btn flashy-btn">
+              <a 
+                href={`${API_BASE}/download/latest`} 
+                className="download-btn flashy-btn"
+                onClick={() => setHasDownloaded(true)}
+              >
                 <Download size={24} strokeWidth={2.5} className="bounce-icon" />
                 Download APK
               </a>
