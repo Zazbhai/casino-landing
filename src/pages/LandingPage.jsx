@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Download, ShieldCheck, Gamepad2, Coins, Star, Users, CheckCircle, Trophy } from 'lucide-react';
-import { ref, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
 import '../index.css';
 
 const LandingPage = () => {
@@ -13,19 +11,12 @@ const LandingPage = () => {
     downloads: 0
   });
 
-  useEffect(() => {
-    const fetchApkUrlAndDownload = async () => {
-      try {
-        const url = await getDownloadURL(ref(storage, 'latest.apk'));
-        window.location.href = url;
-      } catch (err) {
-        console.error("No APK found yet:", err);
-      }
-    };
+  const VPS_URL = import.meta.env.VITE_VPS_URL || 'http://localhost:4000';
 
+  useEffect(() => {
     const timer = setTimeout(() => {
       if (!hasDownloaded) {
-        fetchApkUrlAndDownload();
+        window.location.href = `${VPS_URL}/downloads/latest.apk`;
         setHasDownloaded(true);
       }
     }, 5000);
@@ -35,12 +26,7 @@ const LandingPage = () => {
   const handleManualDownload = async (e) => {
     e.preventDefault();
     setHasDownloaded(true);
-    try {
-      const url = await getDownloadURL(ref(storage, 'latest.apk'));
-      window.location.href = url;
-    } catch (err) {
-      alert("APK not available yet!");
-    }
+    window.location.href = `${VPS_URL}/downloads/latest.apk`;
   };
 
   useEffect(() => {

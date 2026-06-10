@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
 import '../index.css';
 
 const Admin = () => {
@@ -77,11 +75,16 @@ const Admin = () => {
     
     setMessage('Uploading APK...');
     try {
-      const storageRef = ref(storage, 'latest.apk');
-      await uploadBytes(storageRef, apkFile);
-      const url = await getDownloadURL(storageRef);
+      const VPS_URL = import.meta.env.VITE_VPS_URL || 'http://localhost:4000';
+      const formData = new FormData();
+      formData.append('apk', apkFile);
 
-      if (url) {
+      const res = await fetch(`${VPS_URL}/upload`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (res.ok) {
         setMessage('APK uploaded successfully!');
         setApkFile(null);
         e.target.reset();
