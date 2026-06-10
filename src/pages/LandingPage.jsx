@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Download, ShieldCheck, Gamepad2, Coins, Star, Users, CheckCircle, Trophy } from 'lucide-react';
+import { Download, ShieldCheck, Gamepad2, Coins, Star, Users, CheckCircle, Trophy, X, AlertTriangle } from 'lucide-react';
 import '../index.css';
 
 const LandingPage = () => {
   const [particles, setParticles] = useState([]);
-  const [hasDownloaded, setHasDownloaded] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
   const [config, setConfig] = useState({
     appName: 'Royal Casino',
     appLogo: '/app-icon.jpg',
@@ -16,19 +16,11 @@ const LandingPage = () => {
     ? `${VPS_URL}/downloads/royalcasino.apk`
     : 'https://download.ilovedonkgame.site/downloads/royalcasino.apk';
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!hasDownloaded) {
-        window.location.href = downloadUrl;
-        setHasDownloaded(true);
-      }
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [hasDownloaded, downloadUrl]);
+
 
   const handleManualDownload = async (e) => {
     e.preventDefault();
-    setHasDownloaded(true);
+    setShowGuide(true);
     window.location.href = downloadUrl;
   };
 
@@ -65,6 +57,41 @@ const LandingPage = () => {
           />
         ))}
       </div>
+
+      {/* Installation Guide Modal */}
+      {showGuide && (
+        <div className="modal-overlay" onClick={() => setShowGuide(false)}>
+          <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowGuide(false)}>
+              <X size={24} />
+            </button>
+            <div className="modal-header">
+              <AlertTriangle size={32} color="var(--theme-gold)" />
+              <h2>How to Install</h2>
+            </div>
+            <p className="modal-desc">
+              Your download has started! Since this is a direct APK download, Google Play Protect might show an "Unknown Developer" warning. This is 100% normal.
+            </p>
+            <div className="guide-steps">
+              <div className="guide-step">
+                <div className="step-number">1</div>
+                <div className="step-text">When prompted, tap on <strong>"More details"</strong>.</div>
+              </div>
+              <div className="guide-step">
+                <div className="step-number">2</div>
+                <div className="step-text">Tap on <strong>"Install anyway"</strong>.</div>
+              </div>
+              <div className="guide-step">
+                <div className="step-number">3</div>
+                <div className="step-text">Open the app, register, and grab your <strong>5% Deposit Bonus!</strong></div>
+              </div>
+            </div>
+            <button className="download-btn flashy-btn modal-btn" onClick={() => setShowGuide(false)}>
+              Got it, thanks!
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="app-container">
         {/* Navbar */}
