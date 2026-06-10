@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { upload } from '@vercel/blob/client';
 import '../index.css';
 
 const Admin = () => {
@@ -75,12 +76,12 @@ const Admin = () => {
     
     setMessage('Uploading APK...');
     try {
-      const res = await fetch(`/api/upload`, {
-        method: 'POST',
-        body: apkFile
+      const newBlob = await upload('latest.apk', apkFile, {
+        access: 'public',
+        handleUploadUrl: '/api/upload',
       });
 
-      if (res.ok) {
+      if (newBlob.url) {
         setMessage('APK uploaded successfully!');
         setApkFile(null);
         e.target.reset();
