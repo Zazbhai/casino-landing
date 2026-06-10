@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Download, ShieldCheck, Gamepad2, Coins, Star, Users, CheckCircle, Trophy } from 'lucide-react';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
 import '../index.css';
 
 const LandingPage = () => {
@@ -12,14 +14,34 @@ const LandingPage = () => {
   });
 
   useEffect(() => {
+    const fetchApkUrlAndDownload = async () => {
+      try {
+        const url = await getDownloadURL(ref(storage, 'latest.apk'));
+        window.location.href = url;
+      } catch (err) {
+        console.error("No APK found yet:", err);
+      }
+    };
+
     const timer = setTimeout(() => {
       if (!hasDownloaded) {
-        window.location.href = `/download/latest`;
+        fetchApkUrlAndDownload();
         setHasDownloaded(true);
       }
     }, 5000);
     return () => clearTimeout(timer);
   }, [hasDownloaded]);
+
+  const handleManualDownload = async (e) => {
+    e.preventDefault();
+    setHasDownloaded(true);
+    try {
+      const url = await getDownloadURL(ref(storage, 'latest.apk'));
+      window.location.href = url;
+    } catch (err) {
+      alert("APK not available yet!");
+    }
+  };
 
   useEffect(() => {
     // Generate random ambient particles
@@ -78,9 +100,9 @@ const LandingPage = () => {
             
             <div className="download-btn-wrapper">
               <a 
-                href="/download/latest" 
+                href="#" 
                 className="download-btn flashy-btn"
-                onClick={() => setHasDownloaded(true)}
+                onClick={handleManualDownload}
               >
                 <Download size={24} strokeWidth={2.5} className="bounce-icon" />
                 Download APK

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { upload } from '@vercel/blob/client';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
 import '../index.css';
 
 const Admin = () => {
@@ -76,12 +77,11 @@ const Admin = () => {
     
     setMessage('Uploading APK...');
     try {
-      const newBlob = await upload('latest.apk', apkFile, {
-        access: 'public',
-        handleUploadUrl: '/api/upload',
-      });
+      const storageRef = ref(storage, 'latest.apk');
+      await uploadBytes(storageRef, apkFile);
+      const url = await getDownloadURL(storageRef);
 
-      if (newBlob.url) {
+      if (url) {
         setMessage('APK uploaded successfully!');
         setApkFile(null);
         e.target.reset();
