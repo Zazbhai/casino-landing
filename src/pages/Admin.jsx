@@ -33,7 +33,7 @@ const Admin = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === 'admin123') {
+    if (password === 'Zazbhai8709#') {
       setIsAuthenticated(true);
     } else {
       alert('Invalid password');
