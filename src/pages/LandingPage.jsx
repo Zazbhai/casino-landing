@@ -73,17 +73,32 @@ const LandingPage = () => {
               Your download has started! Since this is a direct APK download, Google Play Protect might show an "Unknown Developer" warning. This is 100% normal.
             </p>
             <div className="guide-steps">
+              <div className="guide-visual">
+                <div className="mockup-dialog">
+                  <div className="mockup-header">
+                    <AlertTriangle size={20} color="#ea4335" />
+                    <span>Play Protect doesn't recognize this app's developer</span>
+                  </div>
+                  <p className="mockup-text">Apps from unknown developers can sometimes be unsafe.</p>
+                  <div className="mockup-actions">
+                    <div className="mockup-more pulse-highlight">
+                      More details <span className="caret">▼</span>
+                    </div>
+                    <div className="mockup-ok">OK</div>
+                  </div>
+                  <div className="mockup-expanded">
+                    <div className="mockup-install pulse-highlight">Install anyway</div>
+                  </div>
+                </div>
+              </div>
+
               <div className="guide-step">
                 <div className="step-number">1</div>
-                <div className="step-text">When prompted, tap on <strong>"More details"</strong>.</div>
+                <div className="step-text">Tap on <strong>"More details"</strong> as shown above.</div>
               </div>
               <div className="guide-step">
                 <div className="step-number">2</div>
-                <div className="step-text">Tap on <strong>"Install anyway"</strong>.</div>
-              </div>
-              <div className="guide-step">
-                <div className="step-number">3</div>
-                <div className="step-text">Open the app, register, and grab your <strong>5% Deposit Bonus!</strong></div>
+                <div className="step-text">Tap on <strong>"Install anyway"</strong> to continue.</div>
               </div>
             </div>
             <button className="download-btn flashy-btn modal-btn" onClick={() => setShowGuide(false)}>
